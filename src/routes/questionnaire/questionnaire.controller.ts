@@ -1,17 +1,16 @@
 import { Request, Response, NextFunction } from "express";
 import { QuestionnaireService } from "./questionnaire.service";
-import { GeminiService } from "../gemini/gemini.service";
-import { GeminiRepository } from "../gemini/gemini.repository";
-
+import { WlbService } from "../wlb/wlb.service";
+import { WlbRepository } from "../wlb/wlb.repository";
 
 export class QuestionnaireController {
   private questionnaireService: QuestionnaireService;
-  private geminiService: GeminiService;
+  private wlbService: WlbService;
 
   constructor(questionnaireService: QuestionnaireService) {
     this.questionnaireService = questionnaireService;
-    const geminiRepository = new GeminiRepository();
-    this.geminiService = new GeminiService(geminiRepository);
+    const wlbRepository = new WlbRepository();
+    this.wlbService = new WlbService(wlbRepository);
   }
 
   async getQuestionnaires(req: Request, res: Response, next: NextFunction) {
@@ -44,9 +43,12 @@ export class QuestionnaireController {
       const answers = req.body.answers;
 
       console.log("userId:", userId, "answers:", answers);
-      const newQuestionnaire = await this.questionnaireService.createQuestionnaireAnswer({ userId, answers });
+      const newQuestionnaire = await this.questionnaireService.createQuestionnaireAnswer({
+        userId,
+        answers,
+      });
 
-      const wlbResult = await this.geminiService.analyzeWlbAnswer({
+      const wlbResult = await this.wlbService.analyzeWlbAnswer({
         answers: answers,
         isStudent: false,
         userId,
@@ -57,7 +59,7 @@ export class QuestionnaireController {
       return;
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : "Internal Server Error";
-      
+
       res.status(500).json({ error: errorMessage });
       return;
     }
@@ -66,7 +68,8 @@ export class QuestionnaireController {
   async deleteQuestionnaireAnswer(req: Request, res: Response, next: NextFunction) {
     try {
       const userId = Number(req.user?.id);
-      const deletedQuestionnaire = await this.questionnaireService.deleteQuestionnaireAnswer(userId);
+      const deletedQuestionnaire =
+        await this.questionnaireService.deleteQuestionnaireAnswer(userId);
 
       res.status(200).json(deletedQuestionnaire);
       return;

@@ -25,10 +25,7 @@ export class QuestionnaireRepository {
     }
   }
 
-  async createQuestionnaireAnswer(data: {
-    userId: number;
-    answers: QuestionnaireAnswer[];
-  }) {
+  async createQuestionnaireAnswer(data: { userId: number; answers: QuestionnaireAnswer[] }) {
     try {
       const newQuestionnaire = await prisma.questionnaire.create({
         data: {
@@ -54,11 +51,20 @@ export class QuestionnaireRepository {
   async deleteQuestionnaireAnswer(userId: number) {
     try {
       const deletedQuestionnaire = await prisma.questionnaire.deleteMany({
-        where: {
-          userId: userId,
-        },
+        where: { userId },
       });
-      return deletedQuestionnaire;
+
+      const updatedUser = await prisma.user.update({
+        where: { id: userId },
+        data: { hasAnsweredQuestionnaire: false },
+      });
+
+      return {
+        success: true,
+        message: "Questionnaire deleted and user status updated.",
+        deletedCount: deletedQuestionnaire.count,
+        user: updatedUser,
+      };
     } catch (error) {
       console.error("Error deleting questionnaire:", error);
       throw error;
