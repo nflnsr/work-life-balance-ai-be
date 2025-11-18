@@ -36,11 +36,8 @@ export class NoteController {
     try {
       const userId = Number(req.user?.id);
       const content = req.body.content;
-
-      console.log("userId:", userId, "content:", content);
       const newNote = await this.noteService.createNote({ userId, content });
 
-      console.log("New note created successfully:", newNote);
       res.status(201).json(newNote);
       return;
     } catch (error) {

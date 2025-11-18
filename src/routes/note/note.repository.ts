@@ -29,7 +29,6 @@ export class NoteRepository {
           createdAt: "desc",
         },
       });
-      console.log("notes by user:", notes);
       return notes;
     } catch (error) {
       console.error("Error fetching notes by user:", error);

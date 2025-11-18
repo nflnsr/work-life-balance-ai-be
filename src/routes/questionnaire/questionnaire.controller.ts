@@ -41,20 +41,16 @@ export class QuestionnaireController {
     try {
       const userId = Number(req.user?.id);
       const answers = req.body.answers;
-
-      console.log("userId:", userId, "answers:", answers);
-      const newQuestionnaire = await this.questionnaireService.createQuestionnaireAnswer({
+      await this.questionnaireService.createQuestionnaireAnswer({
         userId,
         answers,
       });
-
       const wlbResult = await this.wlbService.analyzeAndSaveWlbAnswer({
         answers: answers,
         isStudent: false,
         userId,
       });
-      console.log(wlbResult, "wlb result");
-      console.log("New questionnaire created successfully:", newQuestionnaire);
+      
       res.status(201).json(wlbResult);
       return;
     } catch (error) {

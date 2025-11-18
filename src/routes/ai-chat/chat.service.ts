@@ -15,7 +15,6 @@ export class ChatService {
 
   async createChat(data: { userId: number; message: string }) {
     const historyChat = await this.chatRepository.getChatByUserId(data.userId);
-    console.log(historyChat);
 
     const formattedChat = historyChat
       .map((chat) => `  User: ${chat.message}\n  AI: ${chat.answer}`)
@@ -30,7 +29,6 @@ export class ChatService {
     User: ${data.message}
         `;
 
-    console.log(prompt);
     const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
     const response = await ai.models.generateContent({
       model: "gemini-2.5-flash",

@@ -51,7 +51,6 @@ export class ScheduleController {
       const looping = req.body.looping;
       const category = req.body.category;
       const time = req.body.time;
-
       const newSchedule = await this.scheduleService.createSchedule({
         userId,
         desc,
@@ -60,7 +59,6 @@ export class ScheduleController {
         time: new Date(time),
       });
 
-      console.log("New schedule created successfully:", newSchedule);
       res.status(201).json(newSchedule);
       return;
     } catch (error) {

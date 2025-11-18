@@ -96,36 +96,43 @@ export class WlbRepository {
     });
   }
 
- async saveAnalyzeWlbAnswer(data: UserProgress & { userId: number }) { 
-  try {
-    const localDate = new Date();
-    localDate.setHours(0, 0, 0, 0);
-    localDate.setDate(localDate.getDate() + 2);
+  async saveAnalyzeWlbAnswer(data: UserProgress & { userId: number }) {
+    try {
+      const localDate = new Date();
+      localDate.setHours(0, 0, 0, 0);
+      localDate.setDate(localDate.getDate() + 2);
 
-    return await prisma.userProgress.create({
-      data: {
-        score: data.score,
-        summary: data.summary,
-        userId: data.userId,
-        date: localDate,
-        dimensionalScores: {
-          create: data.dimensionalScores?.map(({dimension, score, analysis}) => ({ dimension, score, analysis }))
+      return await prisma.userProgress.create({
+        data: {
+          score: data.score,
+          summary: data.summary,
+          userId: data.userId,
+          date: localDate,
+          dimensionalScores: {
+            create: data.dimensionalScores?.map(({ dimension, score, analysis }) => ({
+              dimension,
+              score,
+              analysis,
+            })),
+          },
+          recommendations: {
+            create: data.recommendations?.map(({ priority, title, description }) => ({
+              priority,
+              title,
+              description,
+            })),
+          },
         },
-        recommendations: {
-          create: data.recommendations?.map(({priority, title, description}) => ({ priority, title, description }))
-        }
+      });
+    } catch (error: any) {
+      if (error?.code === "P2002") {
+        console.error("Duplicate progress entry detected for same day:", error.meta);
+      } else {
+        console.error("Error analyzing WLB:", error);
       }
-    });
-  } catch (error: any) {
-    if (error?.code === "P2002") {
-      console.error("Duplicate progress entry detected for same day:", error.meta);
-    } else {
-      console.error("Error analyzing WLB:", error);
+      throw error;
     }
-    throw error;
   }
-}
-
 
   async deleteUserProgress(userId: number) {
     try {
@@ -141,7 +148,7 @@ export class WlbRepository {
             where: { userId },
           }),
         ]);
-      console.log(deletedProgress, "deleteeee");
+        
       return {
         userId,
         deletedRecommendations: deletedRecommendations.count,

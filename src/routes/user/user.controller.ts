@@ -15,7 +15,6 @@ export class UserController {
       const users = await this.userService.getUsers();
 
       if (!users) {
-        console.log("No users found");
         res.status(404).json({ error: "No users found" });
         return;
       }
@@ -39,23 +38,6 @@ export class UserController {
         return;
       }
 
-      // const accessToken = generateAccessToken(user);
-      // const refreshToken = generateRefreshToken(user);
-
-      // res.cookie("accessToken", accessToken, {
-      //   httpOnly: true,
-      //   secure: true,
-      //   sameSite: "lax",
-      //   maxAge: 1000 * 60 * 60,
-      // });
-
-      // res.cookie("refreshToken", refreshToken, {
-      //   httpOnly: true,
-      //   secure: true,
-      //   sameSite: "lax",
-      //   maxAge: 1000 * 60 * 60 * 24 * 7,
-      // });
-
       responseBuilder.success({ res, data: user });
       return;
     } catch (error) {
@@ -73,10 +55,6 @@ export class UserController {
       responseBuilder.created({ res, data: newUser });
       return;
     } catch (error) {
-      // const errorMessage = error instanceof Error ? error.message : "Internal Server Error";
-
-      // responseBuilder.internalServerError({res, message: errorMessage});
-      // return;
       next(error);
     }
   }
@@ -96,20 +74,12 @@ export class UserController {
       const accessToken = generateAccessToken(userData);
       const refreshToken = generateRefreshToken(userData);
 
-      // res.cookie("accessToken", accessToken, {
-      //   httpOnly: true,
-      //   secure: true,
-      //   sameSite: "lax",
-      //   maxAge: 1000 * 60 * 60 * 24 * 7,
-      // });
-
       res.cookie("refreshToken", refreshToken, {
         httpOnly: true,
         secure: true,
         sameSite: "lax",
         maxAge: 1000 * 60 * 60 * 24 * 7,
       });
-
 
       responseBuilder.success({ res, data: { user: userData, accessToken, refreshToken } });
       return;
@@ -120,19 +90,6 @@ export class UserController {
       return;
     }
   }
-
-  // async logoutUser(req: Request, res: Response, next: NextFunction) {
-  //   try {
-  //     res.clearCookie("accessToken");
-  //     res.clearCookie("refreshToken");
-
-  //     responseBuilder.success({ res, data: { message: "Logout successful" } });
-  //     return;
-  //   } catch (error) {
-  //     responseBuilder.internalServerError({ res });
-  //     return;
-  //   }
-  // }
 
   async refreshToken(req: Request, res: Response, next: NextFunction) {
     try {
@@ -148,13 +105,9 @@ export class UserController {
         responseBuilder.unauthorized({ res, message: "Invalid refresh token" });
         return;
       }
-      console.log("user from refresh token:", user);
-
+      
       const newAccessToken = generateAccessToken(user);
       const newRefreshToken = generateRefreshToken(user);
-
-      console.log("New Access Token:", newAccessToken);
-      console.log("New Refresh Token:", newRefreshToken);
 
       res.cookie("refreshToken", newRefreshToken, {
         httpOnly: true,
