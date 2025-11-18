@@ -156,8 +156,8 @@ const workerListQuestions = [
   "Saya merasa khawatir dengan hal-hal tertentu meski hal tersebut di luar kendali saya.",
 ];
 
-// type Answer = "SANGAT_TIDAK_SETUJU" | "KURANG_SETUJU" | "NETRAL" | "CUKUP_SETUJU" | "SANGAT_SETUJU";
 interface UserProgress {
+  userId: number;
   date: Date;
   score: number;
   summary: string;
@@ -174,16 +174,25 @@ interface DimensionalScore {
 }
 
 interface Recommendation {
-  id: number;
   title: string;
   description: string;
   priority: "High" | "Medium" | "Low";
+  checked: boolean;
 }
 
 interface ChatMessage {
   sender: "user" | "bot";
   text: string;
 }
+
+const recalculationSchema = {
+    type: Type.OBJECT,
+    properties: {
+        newScore: { type: Type.NUMBER, description: "The new, improved score between 0 and 100." },
+        feedback: { type: Type.STRING, description: "A short, 1-2 sentence encouraging feedback message." },
+    },
+    required: ["newScore", "feedback"]
+};
 
 export {
   responseSchema,
@@ -195,4 +204,5 @@ export {
   Recommendation,
   ChatMessage,
   UserProgress,
+  recalculationSchema
 };
