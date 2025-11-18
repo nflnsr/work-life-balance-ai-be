@@ -39,24 +39,12 @@ model User {
 model Chat {
   id        Int      @id @default(autoincrement())
   message   String
+  answer    String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  userId   Int       @unique
+  userId   Int 
   user     User      @relation(fields: [userId], references: [id])
-  messages Message[]
-}
-
-model Message {
-  id        Int      @id @default(autoincrement())
-  message   String
-  sender    String
-  answer    String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  chatId Int
-  chat   Chat @relation(fields: [chatId], references: [id])
 }
 
 model Note {
@@ -113,18 +101,6 @@ model Questionnaire {
   userId Int  @unique
   user   User @relation(fields: [userId], references: [id])
 }
-
-// model UserProgress {
-//   id                       Int      @id @default(autoincrement())
-//   currentScore             Int      @default(0)
-//   createdAt                DateTime @default(now())
-//   updatedAt                DateTime @updatedAt
-
-//   userId Int  @unique
-//   user   User @relation(fields: [userId], references: [id])
-
-//   progress Progress[]
-// }
 
 model UserProgress {
   id        Int      @id @default(autoincrement())
