@@ -1,0 +1,20 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const user_1 = __importDefault(require("./user"));
+const note_1 = __importDefault(require("./note"));
+const schedule_1 = __importDefault(require("./schedule"));
+const questionnaire_1 = __importDefault(require("./questionnaire"));
+const wlb_1 = __importDefault(require("./wlb"));
+const ai_chat_1 = __importDefault(require("./ai-chat"));
+const express_1 = require("express");
+const router = (0, express_1.Router)();
+router.use("/api/user", user_1.default);
+router.use("/api/note", note_1.default);
+router.use("/api/schedule", schedule_1.default);
+router.use("/api/questionnaire", questionnaire_1.default);
+router.use("/api/wlb", wlb_1.default);
+router.use("/api/chat", ai_chat_1.default);
+exports.default = router;
