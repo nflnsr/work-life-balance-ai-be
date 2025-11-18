@@ -22,7 +22,8 @@ export class ScheduleController {
 
   async getSchedulesToday(req: Request, res: Response, next: NextFunction) {
     try {
-      const schedule = await this.scheduleService.getSchedulesToday(req.user);
+      const userId = Number(req.user?.id);
+      const schedule = await this.scheduleService.getSchedulesToday(userId);
       res.status(200).json(schedule);
       return;
     } catch (error) {
@@ -34,7 +35,7 @@ export class ScheduleController {
   async getSchedulesByUserId(req: Request, res: Response, next: NextFunction) {
     try {
       const userId = Number(req.user?.id);
-      const schedule = await this.scheduleService.getSchedulesByUserId({ userId });
+      const schedule = await this.scheduleService.getSchedulesByUserId(userId);
       res.status(200).json(schedule);
       return;
     } catch (error) {

@@ -13,12 +13,12 @@ export class ScheduleService {
     return await this.scheduleRepository.getSchedules();
   }
 
-  async getSchedulesToday(auth: any) {
-    return await this.scheduleRepository.getSchedulesToday(auth);
+  async getSchedulesToday(userId: number ) {
+    return await this.scheduleRepository.getSchedulesToday(userId);
   }
 
-  async getSchedulesByUserId(auth: any) {
-    return await this.scheduleRepository.getSchedulesByUserId(auth);
+  async getSchedulesByUserId(userId: number) {
+    return await this.scheduleRepository.getSchedulesByUserId(userId);
   }
 
   async createSchedule(data: {

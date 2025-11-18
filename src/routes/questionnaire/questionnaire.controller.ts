@@ -48,7 +48,7 @@ export class QuestionnaireController {
         answers,
       });
 
-      const wlbResult = await this.wlbService.analyzeWlbAnswer({
+      const wlbResult = await this.wlbService.analyzeAndSaveWlbAnswer({
         answers: answers,
         isStudent: false,
         userId,

@@ -43,6 +43,7 @@ export class UserRepository {
           field: true,
           hobbies: true,
           hasAnsweredQuestionnaire: true,
+          createdAt: true,
         },
       });
 

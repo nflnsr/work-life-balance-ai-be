@@ -20,11 +20,7 @@ export const authenticate = (req: Request, res: Response, next: NextFunction) =>
 
   const accessToken = authHeader.split(" ")[1];
 
-  console.log("Access Token:", accessToken);
-
   const user = verifyAccessToken(accessToken!);
-
-  console.log("Authenticated User:", user);
 
   req.user = user as User;
 

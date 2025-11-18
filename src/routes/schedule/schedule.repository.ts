@@ -17,7 +17,7 @@ export class ScheduleRepository {
     }
   }
 
-  async getSchedulesToday(user: any) {
+  async getSchedulesToday(userId: number) {
     try {
       const nowJakarta = dayjs().tz("Asia/Jakarta");
       const startOfDay = nowJakarta.startOf("day").toDate();
@@ -30,7 +30,7 @@ export class ScheduleRepository {
 
       const schedules = await prisma.schedule.findMany({
         where: {
-          userId: user.userId,
+          userId: userId,
           items: {
             some: {
               OR: [

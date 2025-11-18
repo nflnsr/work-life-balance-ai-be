@@ -23,12 +23,20 @@ router.get("/history", authenticate, (req: Request, res: Response, next: NextFun
   return wlbController.getWlbUserHistory(req, res, next);
 });
 
-router.post("/analyze", authenticate, (req: Request, res: Response, next: NextFunction) => {
-  return wlbController.analyzeWlbAnswers(req, res, next);
+router.patch("/recommendation/:recommendationId", authenticate, (req: Request, res: Response, next: NextFunction) => {
+  return wlbController.updateRecommendationStatus(req, res, next);
 });
 
 router.delete("/progress", authenticate, (req: Request, res: Response, next: NextFunction) => {
   return wlbController.deleteUserProgress(req, res, next);
+});
+
+router.post("/analyze", authenticate, (req: Request, res: Response, next: NextFunction) => {
+  return wlbController.analyzeWlbAnswers(req, res, next);
+});
+
+router.post("/recalculate", authenticate, (req: Request, res: Response, next: NextFunction) => {
+  return wlbController.recalculateWlbScores(req, res, next);
 });
 
 export default router;
