@@ -21,8 +21,13 @@ export class WlbService {
   async getWlbUserToday(userId: number) {
     return await this.wlbRepository.getWlbUserToday(userId);
   }
+
   async getLatestWlbUser(userId: number) {
     return await this.wlbRepository.getLatestWlbUser(userId);
+  }
+
+  async getUsersByRecalculateProgress(recalculateFlag: boolean) {
+    return await this.wlbRepository.getUsersByRecalculateProgress(recalculateFlag);
   }
 
   async getWlbUserHistory(userId: number) {
@@ -31,6 +36,10 @@ export class WlbService {
 
   async deleteUserProgress(userId: number) {
     return await this.wlbRepository.deleteUserProgress(userId);
+  }
+
+  async updateRecalculateProgressFlag(userId: number, flag: boolean) {
+    return await this.wlbRepository.updateRecalculateProgressFlag(userId, flag);
   }
 
   async updateRecommendationStatus(userId: number, recommendationId: number) {

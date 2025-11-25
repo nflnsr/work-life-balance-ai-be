@@ -26,6 +26,7 @@ model User {
   field                    String?
   hobbies                  String?
   hasAnsweredQuestionnaire Boolean  @default(false)
+  recalculateProgress      Boolean  @default(false)
   createdAt                DateTime @default(now())
   updatedAt                DateTime @updatedAt
 

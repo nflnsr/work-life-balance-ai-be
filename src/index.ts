@@ -14,6 +14,7 @@ import { responseBuilder } from "@/utils/response-handler";
 import { NextFunction, Request, Response } from "express";
 import cookieParser from "cookie-parser";
 import { PrismaError } from "@/utils/prisma";
+import "./jobs/index";
 
 const app: Application = express();
 
