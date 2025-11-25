@@ -7,7 +7,7 @@ const wlbRepository = new WlbRepository();
 const wlbService = new WlbService(wlbRepository);
 
 cron.schedule(
-  "59 23 * * *", 
+  "01 00 * * *", 
   async () => {
     console.log("Running recalculate job")
     const usersToRecalculate = await wlbService.getUsersByRecalculateProgress(true);
