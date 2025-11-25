@@ -116,7 +116,6 @@ model UserProgress {
   recommendations Recommendation[]
   dimensionalScores DimensionalScore[]
 
-  @@unique([userId, date])
   @@index([date])
   @@index([userId])
 }

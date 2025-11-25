@@ -7,22 +7,25 @@ const wlbRepository = new WlbRepository();
 const wlbService = new WlbService(wlbRepository);
 
 cron.schedule(
-  "30 01 * * *", 
+  "00 01 * * *",
   async () => {
-    console.log("Running recalculate job")
-    const usersToRecalculate = await wlbService.getUsersByRecalculateProgress(true);
-    for (const user of usersToRecalculate) {
-      console.log(`Recalculating WLB for user ${user.id} - ${user.email}`);
-      const latestProgress = await wlbService.getLatestWlbUser(user.id) as UserProgress;
-      if (latestProgress) {
-        await wlbService.recalculateWlbScore(latestProgress, user.id);
-        await wlbService.updateRecalculateProgressFlag(user.id, false);
+    try {
+      console.log("Running recalculate job");
+      const usersToRecalculate = await wlbService.getUsersByRecalculateProgress(true);
+      for (const user of usersToRecalculate) {
+        console.log(`Recalculating WLB for user ${user.id} - ${user.email}`);
+        const latestProgress = (await wlbService.getLatestWlbUser(user.id)) as UserProgress;
+        if (latestProgress) {
+          await wlbService.recalculateWlbScore(latestProgress, user.id);
+          await wlbService.updateRecalculateProgressFlag(user.id, false);
+          console.log("Success");
+        }
       }
+    } catch (error) {
+      console.error("Error during WLB recalculation job:", error);
     }
   },
   {
     timezone: "Asia/Jakarta",
   }
 );
-
-
