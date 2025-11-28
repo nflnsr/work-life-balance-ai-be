@@ -186,4 +186,8 @@ export class WlbService {
       throw new Error("The AI recalculation response was not in the expected format.");
     }
   }
+
+  async insertLatestWlbProgress(userId: number) {
+    await this.wlbRepository.insertLatestWlbProgress(userId);
+  }
 }

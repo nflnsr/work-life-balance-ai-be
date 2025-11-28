@@ -18,8 +18,13 @@ cron.schedule(
         if (latestProgress) {
           await wlbService.recalculateWlbScore(latestProgress, user.id);
           await wlbService.updateRecalculateProgressFlag(user.id, false);
-          console.log("Success");
+          console.log("Success recalculating WLB");
         }
+      }
+      const userToNotRecalculate = await wlbService.getUsersByRecalculateProgress(false);
+      for (const user of userToNotRecalculate) {
+        await wlbService.insertLatestWlbProgress(user.id);
+        console.log(`Inserted latest WLB progress for user ${user.id} - ${user.email}`);
       }
     } catch (error) {
       console.error("Error during WLB recalculation job:", error);
