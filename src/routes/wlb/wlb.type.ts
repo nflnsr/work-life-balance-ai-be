@@ -18,7 +18,15 @@ const responseSchema = {
       items: {
         type: Type.OBJECT,
         properties: {
-          dimension: { type: Type.STRING },
+          dimension: {
+            type: [
+              "Akademik/Pekerjaan & Profesionalisme",
+              "Pengembangan Diri",
+              "Sosial & Relasi",
+              "Personal & Mental",
+              "Karier & Masa Depan",
+            ],
+          },
           score: {
             type: Type.NUMBER,
             description: "A score for this specific dimension from 0 to 100.",
@@ -186,12 +194,15 @@ interface ChatMessage {
 }
 
 const recalculationSchema = {
-    type: Type.OBJECT,
-    properties: {
-        newScore: { type: Type.NUMBER, description: "The new, improved score between 0 and 100." },
-        feedback: { type: Type.STRING, description: "A short, 1-2 sentence encouraging feedback message." },
+  type: Type.OBJECT,
+  properties: {
+    newScore: { type: Type.NUMBER, description: "The new, improved score between 0 and 100." },
+    feedback: {
+      type: Type.STRING,
+      description: "A short, 1-2 sentence encouraging feedback message.",
     },
-    required: ["newScore", "feedback"]
+  },
+  required: ["newScore", "feedback"],
 };
 
 export {
@@ -204,5 +215,5 @@ export {
   Recommendation,
   ChatMessage,
   UserProgress,
-  recalculationSchema
+  recalculationSchema,
 };
