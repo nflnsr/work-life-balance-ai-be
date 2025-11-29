@@ -55,4 +55,8 @@ export class ChatService {
       throw new Error("The AI recalculation response was not in the expected format.");
     }
   }
+
+  async updateChatQuota(userId: number, newQuota: number = 8) {
+    return await this.chatRepository.updateChatQuota(userId, newQuota);
+  }
 }

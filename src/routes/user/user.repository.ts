@@ -28,6 +28,20 @@ export class UserRepository {
     }
   }
 
+  async getUsersId(){
+    try {
+      const users = await prisma.user.findMany({
+        select: {
+          id: true,
+        },
+      });
+      return users;
+    } catch (error) {
+      console.error("Error fetching user IDs:", error);
+      throw error;
+    }
+  }
+
   async getProfile(userId: number) {
     try {
       const user = await prisma.user.findUnique({

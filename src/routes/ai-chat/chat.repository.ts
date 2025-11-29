@@ -6,6 +6,13 @@ export class ChatRepository {
         where: {
           userId: userId,
         },
+        include: {
+          user: {
+            select: {
+              chatQuota: true,
+            },
+          },
+        },
       });
     } catch (error) {
       console.error("Error fetching chat by user ID:", error);
@@ -15,6 +22,10 @@ export class ChatRepository {
 
   async createChat(data: { userId: number; message: string; answer: string }) {
     try {
+      await prisma.user.update({
+        where: { id: data.userId },
+        data: { chatQuota: { decrement: 1 } },
+      });
       return await prisma.chat.create({
         data: {
           userId: data.userId,
@@ -23,8 +34,20 @@ export class ChatRepository {
         },
       });
     } catch (error) {
-        console.error("Error creating chat:", error);
-        throw error;
+      console.error("Error creating chat:", error);
+      throw error;
+    }
+  }
+
+  async updateChatQuota(userId: number, newQuota: number = 8) {
+    try {
+      return await prisma.user.update({
+        where: { id: userId },
+        data: { chatQuota: newQuota },
+      });
+    } catch (error) {
+      console.error("Error updating chat quota:", error);
+      throw error;
     }
   }
 }

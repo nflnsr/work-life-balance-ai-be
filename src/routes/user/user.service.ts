@@ -14,6 +14,10 @@ export class UserService {
     return await this.userRepository.getUsers();
   }
 
+  async getUsersId() {
+    return await this.userRepository.getUsersId();
+  }
+
   async getProfile(userId: number) {
     return await this.userRepository.getProfile(userId);
   }

@@ -29,6 +29,7 @@ model User {
   recalculateProgress      Boolean  @default(false)
   createdAt                DateTime @default(now())
   updatedAt                DateTime @updatedAt
+  chatQuota                Int      @default(8)
 
   chats         Chat[]
   notes         Note[]
@@ -44,8 +45,8 @@ model Chat {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  userId   Int 
-  user     User      @relation(fields: [userId], references: [id])
+  userId Int
+  user   User @relation(fields: [userId], references: [id])
 }
 
 model Note {
@@ -111,9 +112,9 @@ model UserProgress {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  userId Int
-  user   User @relation(fields: [userId], references: [id])
-  recommendations Recommendation[]
+  userId            Int
+  user              User               @relation(fields: [userId], references: [id])
+  recommendations   Recommendation[]
   dimensionalScores DimensionalScore[]
 
   @@index([date])
@@ -121,24 +122,24 @@ model UserProgress {
 }
 
 model Recommendation {
-  id          Int      @id @default(autoincrement())
+  id          Int     @id @default(autoincrement())
   priority    String
   title       String
   description String
-  checked     Boolean  @default(false)
+  checked     Boolean @default(false)
 
-  userProgressId  Int
-  userProgress    UserProgress @relation(fields: [userProgressId], references: [id])
+  userProgressId Int
+  userProgress   UserProgress @relation(fields: [userProgressId], references: [id])
 }
 
 model DimensionalScore {
-  id               Int      @id @default(autoincrement())
-  dimension       String
-  score           Int
-  analysis        String
+  id        Int    @id @default(autoincrement())
+  dimension String
+  score     Int
+  analysis  String
 
-  userProgressId  Int
-  userProgress    UserProgress @relation(fields: [userProgressId], references: [id])
+  userProgressId Int
+  userProgress   UserProgress @relation(fields: [userProgressId], references: [id])
 }
 
 enum Looping {
