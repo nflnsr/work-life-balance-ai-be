@@ -33,12 +33,16 @@ router.post("/logout", authenticate, (req: Request, res: Response, next: NextFun
   return userController.logoutUser(req, res, next);
 });
 
-// router.post("/logout", authenticate, (req: Request, res: Response, next: NextFunction) => {
-//   return userController.logoutUser(req, res, next);
-// });
-
 router.post("/refresh-token", (req: Request, res: Response, next: NextFunction) => {
   return userController.refreshToken(req, res, next);
+});
+
+router.get("/feedback", authenticate, (req: Request, res: Response, next: NextFunction) => {
+  return userController.getFeedback(req, res, next);
+});
+
+router.post("/feedback", authenticate, (req: Request, res: Response, next: NextFunction) => {
+  return userController.updateFeedback(req, res, next);
 });
 
 export default router;

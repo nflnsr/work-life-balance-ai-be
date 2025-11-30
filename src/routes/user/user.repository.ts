@@ -2,7 +2,6 @@ import { prisma } from "../../utils/prisma";
 import { User } from "./user.type";
 
 export class UserRepository {
-
   async getUsers() {
     try {
       const users = await prisma.user.findMany({
@@ -28,7 +27,7 @@ export class UserRepository {
     }
   }
 
-  async getUsersId(){
+  async getUsersId() {
     try {
       const users = await prisma.user.findMany({
         select: {
@@ -136,6 +135,30 @@ export class UserRepository {
       return !!user;
     } catch (error) {
       console.error("Error checking phone existence:", error);
+      throw error;
+    }
+  }
+
+  async getFeedback(userId: number) {
+    try {
+      const user = await prisma.user.findUnique({
+        where: { id: userId },
+      });
+      return user ? user.feedback : null;
+    } catch (error) {
+      console.error("Error fetching user feedback:", error);
+      throw error;
+    }
+  }
+
+  async updateFeedback(userId: number, feedback: string) {
+    try {
+      return await prisma.user.update({
+        where: { id: userId },
+        data: { feedback },
+      });
+    } catch (error) {
+      console.error("Error updating user feedback:", error);
       throw error;
     }
   }

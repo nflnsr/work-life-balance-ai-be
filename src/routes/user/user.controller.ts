@@ -105,7 +105,7 @@ export class UserController {
         responseBuilder.unauthorized({ res, message: "Invalid refresh token" });
         return;
       }
-      
+
       const newAccessToken = generateAccessToken(user);
       const newRefreshToken = generateRefreshToken(user);
 
@@ -131,6 +131,32 @@ export class UserController {
       res.clearCookie("refreshToken");
 
       responseBuilder.success({ res, data: { message: "Logout successful" } });
+      return;
+    } catch (error) {
+      responseBuilder.internalServerError({ res });
+      return;
+    }
+  }
+
+  async getFeedback(req: Request, res: Response, next: NextFunction) {
+    try {
+      const userId = Number(req.user?.id);
+      const feedback = await this.userService.getFeedback(userId);
+      responseBuilder.success({ res, data: feedback });
+      return;
+    } catch (error) {
+      responseBuilder.internalServerError({ res });
+      return;
+    }
+  }
+
+  async updateFeedback(req: Request, res: Response, next: NextFunction) {
+    try {
+      const userId = Number(req.user?.id);
+      const { feedback } = req.body;
+      const updatedUser = await this.userService.updateFeedback(userId, feedback);
+
+      responseBuilder.success({ res, data: updatedUser });
       return;
     } catch (error) {
       responseBuilder.internalServerError({ res });

@@ -55,4 +55,12 @@ export class UserService {
     }
     return user;
   }
+
+  async getFeedback(userId: number) {
+    return await this.userRepository.getFeedback(userId);
+  }
+
+  async updateFeedback(userId: number, feedback: string) {
+    return await this.userRepository.updateFeedback(userId, feedback);
+  }
 }
