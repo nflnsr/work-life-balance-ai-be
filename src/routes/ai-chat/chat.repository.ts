@@ -6,13 +6,6 @@ export class ChatRepository {
         where: {
           userId: userId,
         },
-        include: {
-          user: {
-            select: {
-              chatQuota: true,
-            },
-          },
-        },
       });
     } catch (error) {
       console.error("Error fetching chat by user ID:", error);
@@ -35,6 +28,19 @@ export class ChatRepository {
       });
     } catch (error) {
       console.error("Error creating chat:", error);
+      throw error;
+    }
+  }
+
+  async getChatQuota(userId: number) {
+    try {
+      const user = await prisma.user.findUnique({
+        where: { id: userId },
+        select: { chatQuota: true },
+      });
+      return user ? user.chatQuota : null;
+    } catch (error) {
+      console.error("Error fetching chat quota:", error);
       throw error;
     }
   }

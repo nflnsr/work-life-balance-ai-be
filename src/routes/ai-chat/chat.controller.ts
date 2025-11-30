@@ -20,6 +20,18 @@ export class ChatController {
     }
   }
 
+  async getChatQuota(req: Request, res: Response, next: NextFunction) {
+    try {
+      const userId = Number(req.user?.id);
+      const quota = await this.chatService.getChatQuota(userId);
+      res.status(200).json({ chatQuota: quota });
+      return;
+    } catch (error) {
+      res.status(500).json({ error: "Internal Server Error" });
+      return;
+    }
+  }
+
   async createChat(req: Request, res: Response, next: NextFunction) {
     try {
       const userId = Number(req.user?.id);

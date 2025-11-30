@@ -14,6 +14,10 @@ router.get("/", authenticate, (req, res, next) => {
   return chatController.getChatByUserId(req, res, next);
 });
 
+router.get("/quota", authenticate, (req, res, next) => {
+  return chatController.getChatQuota(req, res, next);
+});
+
 router.post("/", authenticate, (req, res, next) => {
   return chatController.createChat(req, res, next);
 });

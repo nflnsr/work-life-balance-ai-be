@@ -56,6 +56,10 @@ export class ChatService {
     }
   }
 
+  async getChatQuota(userId: number) {
+    return await this.chatRepository.getChatQuota(userId);
+  }
+
   async updateChatQuota(userId: number, newQuota: number = 8) {
     return await this.chatRepository.updateChatQuota(userId, newQuota);
   }
