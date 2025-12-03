@@ -20,7 +20,7 @@ const app: Application = express();
 
 app.use(
   cors({
-    origin: ["http://localhost:3000", "https://xr5wvcsx-3000.asse.devtunnels.ms"],
+    origin: ["https://squid-app-7zyhx.ondigitalocean.app"],
     credentials: true,
     preflightContinue: true,
     methods: "GET, HEAD, PUT, PATCH, POST, DELETE",

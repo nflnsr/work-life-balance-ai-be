@@ -17,8 +17,8 @@ cron.schedule(
         const latestProgress = (await wlbService.getLatestWlbUser(user.id)) as UserProgress;
         if (latestProgress) {
           await wlbService.recalculateWlbScore(latestProgress, user.id);
-          await wlbService.updateRecalculateProgressFlag(user.id, false);
           console.log("Success recalculating WLB");
+          await wlbService.updateRecalculateProgressFlag(user.id, false);
         }
       }
       const userToNotRecalculate = await wlbService.getUsersByRecalculateProgress(false);
