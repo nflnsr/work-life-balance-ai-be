@@ -17,14 +17,15 @@ const http_exeption_1 = require("@/utils/http-exeption");
 const response_handler_1 = require("@/utils/response-handler");
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const prisma_1 = require("@/utils/prisma");
+require("./jobs/index");
 const app = (0, express_1.default)();
 app.use((0, cors_1.default)({
-    origin: ["http://localhost:3000", "https://xr5wvcsx-3000.asse.devtunnels.ms"],
+    origin: ["http://localhost:3000", "https://squid-app-7zyhx.ondigitalocean.app"],
     credentials: true,
     preflightContinue: true,
     methods: "GET, HEAD, PUT, PATCH, POST, DELETE",
+    allowedHeaders: ["Content-Type", "Authorization", "Accept", "Origin", "X-Requested-With"],
 }));
-
 app.use(express_1.default.json());
 app.use((0, cookie_parser_1.default)());
 app.use(index_1.default);

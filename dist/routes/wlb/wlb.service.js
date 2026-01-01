@@ -21,11 +21,17 @@ class WlbService {
     async getLatestWlbUser(userId) {
         return await this.wlbRepository.getLatestWlbUser(userId);
     }
+    async getUsersByRecalculateProgress(recalculateFlag) {
+        return await this.wlbRepository.getUsersByRecalculateProgress(recalculateFlag);
+    }
     async getWlbUserHistory(userId) {
         return await this.wlbRepository.getWlbUserHistory(userId);
     }
     async deleteUserProgress(userId) {
         return await this.wlbRepository.deleteUserProgress(userId);
+    }
+    async updateRecalculateProgressFlag(userId, flag) {
+        return await this.wlbRepository.updateRecalculateProgressFlag(userId, flag);
     }
     async updateRecommendationStatus(userId, recommendationId) {
         return await this.wlbRepository.updateRecommendationStatus(userId, recommendationId);
@@ -144,6 +150,9 @@ class WlbService {
             console.error("Failed to parse Gemini recalculation response:", jsonText, error);
             throw new Error("The AI recalculation response was not in the expected format.");
         }
+    }
+    async insertLatestWlbProgress(userId) {
+        await this.wlbRepository.insertLatestWlbProgress(userId);
     }
 }
 exports.WlbService = WlbService;

@@ -12,6 +12,9 @@ const chatController = new chat_controller_1.ChatController(chatService);
 router.get("/", authenticate_1.authenticate, (req, res, next) => {
     return chatController.getChatByUserId(req, res, next);
 });
+router.get("/quota", authenticate_1.authenticate, (req, res, next) => {
+    return chatController.getChatQuota(req, res, next);
+});
 router.post("/", authenticate_1.authenticate, (req, res, next) => {
     return chatController.createChat(req, res, next);
 });

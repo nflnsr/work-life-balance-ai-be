@@ -117,5 +117,30 @@ class UserController {
             return;
         }
     }
+    async getFeedback(req, res, next) {
+        try {
+            const userId = Number(req.user?.id);
+            const feedback = await this.userService.getFeedback(userId);
+            response_handler_1.responseBuilder.success({ res, data: feedback });
+            return;
+        }
+        catch (error) {
+            response_handler_1.responseBuilder.internalServerError({ res });
+            return;
+        }
+    }
+    async updateFeedback(req, res, next) {
+        try {
+            const userId = Number(req.user?.id);
+            const { feedback } = req.body;
+            const updatedUser = await this.userService.updateFeedback(userId, feedback);
+            response_handler_1.responseBuilder.success({ res, data: updatedUser });
+            return;
+        }
+        catch (error) {
+            response_handler_1.responseBuilder.internalServerError({ res });
+            return;
+        }
+    }
 }
 exports.UserController = UserController;

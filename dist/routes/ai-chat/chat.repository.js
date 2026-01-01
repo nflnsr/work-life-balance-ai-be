@@ -18,6 +18,10 @@ class ChatRepository {
     }
     async createChat(data) {
         try {
+            await prisma_1.prisma.user.update({
+                where: { id: data.userId },
+                data: { chatQuota: { decrement: 1 } },
+            });
             return await prisma_1.prisma.chat.create({
                 data: {
                     userId: data.userId,
@@ -28,6 +32,31 @@ class ChatRepository {
         }
         catch (error) {
             console.error("Error creating chat:", error);
+            throw error;
+        }
+    }
+    async getChatQuota(userId) {
+        try {
+            const user = await prisma_1.prisma.user.findUnique({
+                where: { id: userId },
+                select: { chatQuota: true },
+            });
+            return user ? user.chatQuota : null;
+        }
+        catch (error) {
+            console.error("Error fetching chat quota:", error);
+            throw error;
+        }
+    }
+    async updateChatQuota(userId, newQuota = 8) {
+        try {
+            return await prisma_1.prisma.user.update({
+                where: { id: userId },
+                data: { chatQuota: newQuota },
+            });
+        }
+        catch (error) {
+            console.error("Error updating chat quota:", error);
             throw error;
         }
     }

@@ -27,10 +27,13 @@ router.post("/login", (0, validate_1.validate)(login_1.loginSchema), (req, res, 
 router.post("/logout", authenticate_1.authenticate, (req, res, next) => {
     return userController.logoutUser(req, res, next);
 });
-// router.post("/logout", authenticate, (req: Request, res: Response, next: NextFunction) => {
-//   return userController.logoutUser(req, res, next);
-// });
 router.post("/refresh-token", (req, res, next) => {
     return userController.refreshToken(req, res, next);
+});
+router.get("/feedback", authenticate_1.authenticate, (req, res, next) => {
+    return userController.getFeedback(req, res, next);
+});
+router.post("/feedback", authenticate_1.authenticate, (req, res, next) => {
+    return userController.updateFeedback(req, res, next);
 });
 exports.default = router;

@@ -27,6 +27,20 @@ class UserRepository {
             throw error;
         }
     }
+    async getUsersId() {
+        try {
+            const users = await prisma_1.prisma.user.findMany({
+                select: {
+                    id: true,
+                },
+            });
+            return users;
+        }
+        catch (error) {
+            console.error("Error fetching user IDs:", error);
+            throw error;
+        }
+    }
     async getProfile(userId) {
         try {
             const user = await prisma_1.prisma.user.findUnique({
@@ -120,6 +134,30 @@ class UserRepository {
         }
         catch (error) {
             console.error("Error checking phone existence:", error);
+            throw error;
+        }
+    }
+    async getFeedback(userId) {
+        try {
+            const user = await prisma_1.prisma.user.findUnique({
+                where: { id: userId },
+            });
+            return user ? user.feedback : null;
+        }
+        catch (error) {
+            console.error("Error fetching user feedback:", error);
+            throw error;
+        }
+    }
+    async updateFeedback(userId, feedback) {
+        try {
+            return await prisma_1.prisma.user.update({
+                where: { id: userId },
+                data: { feedback },
+            });
+        }
+        catch (error) {
+            console.error("Error updating user feedback:", error);
             throw error;
         }
     }

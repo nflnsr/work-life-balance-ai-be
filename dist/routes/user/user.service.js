@@ -11,6 +11,9 @@ class UserService {
     async getUsers() {
         return await this.userRepository.getUsers();
     }
+    async getUsersId() {
+        return await this.userRepository.getUsersId();
+    }
     async getProfile(userId) {
         return await this.userRepository.getProfile(userId);
     }
@@ -40,6 +43,12 @@ class UserService {
             throw new Error("Invalid email or password");
         }
         return user;
+    }
+    async getFeedback(userId) {
+        return await this.userRepository.getFeedback(userId);
+    }
+    async updateFeedback(userId, feedback) {
+        return await this.userRepository.updateFeedback(userId, feedback);
     }
 }
 exports.UserService = UserService;

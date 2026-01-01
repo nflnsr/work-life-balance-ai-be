@@ -60,6 +60,23 @@ class WlbRepository {
             throw error;
         }
     }
+    async getUsersByRecalculateProgress(recalculateFlag) {
+        try {
+            const users = await prisma_1.prisma.user.findMany({
+                where: {
+                    ...(recalculateFlag !== undefined && {
+                        recalculateProgress: recalculateFlag,
+                    }),
+                },
+                select: { id: true, name: true, email: true },
+            });
+            return users;
+        }
+        catch (error) {
+            console.error("Error fetching WLB users for recalculation:", error);
+            throw error;
+        }
+    }
     async getWlbUserHistory(userId) {
         try {
             const result = await prisma_1.prisma.userProgress.findMany({
@@ -77,7 +94,14 @@ class WlbRepository {
             throw error;
         }
     }
+    async updateRecalculateProgressFlag(userId, flag) {
+        return await prisma_1.prisma.user.update({
+            where: { id: userId },
+            data: { recalculateProgress: flag },
+        });
+    }
     async updateRecommendationStatus(userId, recommendationId) {
+        await this.updateRecalculateProgressFlag(userId, true);
         return await prisma_1.prisma.recommendation.updateMany({
             where: {
                 id: recommendationId,
@@ -94,7 +118,7 @@ class WlbRepository {
         try {
             const localDate = new Date();
             localDate.setHours(0, 0, 0, 0);
-            localDate.setDate(localDate.getDate() + 2);
+            // localDate.setDate(localDate.getDate());
             return await prisma_1.prisma.userProgress.create({
                 data: {
                     score: data.score,
@@ -151,6 +175,46 @@ class WlbRepository {
         }
         catch (error) {
             console.error("Error deleting user progress:", error);
+            throw error;
+        }
+    }
+    async insertLatestWlbProgress(userId) {
+        try {
+            const lastProgress = await this.getLatestWlbUser(userId);
+            const { id, date, userId: user_id, createdAt, updatedAt, ...progressData } = lastProgress;
+            const localDate = new Date();
+            localDate.setHours(0, 0, 0, 0);
+            localDate.setDate(localDate.getDate() + 2);
+            return await prisma_1.prisma.userProgress.create({
+                data: {
+                    score: progressData.score,
+                    summary: progressData.summary,
+                    userId,
+                    date: localDate,
+                    dimensionalScores: progressData.dimensionalScores
+                        ? {
+                            create: progressData.dimensionalScores.map(({ dimension, score, analysis }) => ({
+                                dimension,
+                                score,
+                                analysis,
+                            })),
+                        }
+                        : undefined,
+                    recommendations: progressData.recommendations
+                        ? {
+                            create: progressData.recommendations.map(({ priority, title, description, checked }) => ({
+                                priority,
+                                title,
+                                description,
+                                checked,
+                            })),
+                        }
+                        : undefined,
+                },
+            });
+        }
+        catch (error) {
+            console.error("Error inserting latest WLB progress:", error);
             throw error;
         }
     }

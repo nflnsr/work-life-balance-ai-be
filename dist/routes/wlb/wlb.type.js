@@ -18,7 +18,15 @@ const responseSchema = {
             items: {
                 type: genai_1.Type.OBJECT,
                 properties: {
-                    dimension: { type: genai_1.Type.STRING },
+                    dimension: {
+                        type: [
+                            "Akademik/Pekerjaan & Profesionalisme",
+                            "Pengembangan Diri",
+                            "Sosial & Relasi",
+                            "Personal & Mental",
+                            "Karier & Masa Depan",
+                        ],
+                    },
                     score: {
                         type: genai_1.Type.NUMBER,
                         description: "A score for this specific dimension from 0 to 100.",
@@ -145,8 +153,11 @@ const recalculationSchema = {
     type: genai_1.Type.OBJECT,
     properties: {
         newScore: { type: genai_1.Type.NUMBER, description: "The new, improved score between 0 and 100." },
-        feedback: { type: genai_1.Type.STRING, description: "A short, 1-2 sentence encouraging feedback message." },
+        feedback: {
+            type: genai_1.Type.STRING,
+            description: "A short, 1-2 sentence encouraging feedback message.",
+        },
     },
-    required: ["newScore", "feedback"]
+    required: ["newScore", "feedback"],
 };
 exports.recalculationSchema = recalculationSchema;
