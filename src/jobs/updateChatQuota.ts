@@ -11,7 +11,7 @@ const userRepository = new UserRepository();
 const userService = new UserService(userRepository);
 
 cron.schedule(
-  "20 00 * * *",
+  "00 01 * * *",
   async () => {
     try {
       const userIds = await userService.getUsersId();

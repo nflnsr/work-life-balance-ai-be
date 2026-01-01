@@ -28,11 +28,6 @@ app.use(
   })
 );
 
-// app.options("*", cors({
-//   origin: "https://test-data-integrasi-inovasi-fe.vercel.app",
-//   credentials: true,
-// }));
-
 app.use(express.json());
 
 app.use(cookieParser());

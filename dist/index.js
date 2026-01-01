@@ -24,10 +24,7 @@ app.use((0, cors_1.default)({
     preflightContinue: true,
     methods: "GET, HEAD, PUT, PATCH, POST, DELETE",
 }));
-// app.options("*", cors({
-//   origin: "https://test-data-integrasi-inovasi-fe.vercel.app",
-//   credentials: true,
-// }));
+
 app.use(express_1.default.json());
 app.use((0, cookie_parser_1.default)());
 app.use(index_1.default);
