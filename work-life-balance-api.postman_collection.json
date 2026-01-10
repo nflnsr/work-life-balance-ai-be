@@ -1,0 +1,1149 @@
+{
+  "info": {
+    "_postman_id": "work-life-balance-api",
+    "name": "Work Life Balance AI API",
+    "description": "API documentation for Work Life Balance AI Backend",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:4000",
+      "type": "string"
+    },
+    {
+      "key": "access_token",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "User",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"John Doe\",\n  \"email\": \"johndoe@example.com\",\n  \"password\": \"password123\",\n  \"confirmPassword\": \"password123\",\n  \"phone\": \"08123456789\",\n  \"gender\": \"male\",\n  \"isStudent\": true,\n  \"age\": 25,\n  \"field\": \"Computer Science\",\n  \"hobbies\": \"Reading, Gaming\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/user/register",
+              "host": ["{{base_url}}"],
+              "path": ["api", "user", "register"]
+            },
+            "description": "Register a new user account"
+          },
+          "response": [
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"John Doe\",\n  \"email\": \"johndoe@example.com\",\n  \"password\": \"password123\",\n  \"confirmPassword\": \"password123\",\n  \"phone\": \"08123456789\",\n  \"gender\": \"male\",\n  \"isStudent\": true,\n  \"age\": 25,\n  \"field\": \"Computer Science\",\n  \"hobbies\": \"Reading, Gaming\"\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/user/register",
+                  "host": ["{{base_url}}"],
+                  "path": ["api", "user", "register"]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"success\",\n  \"message\": \"data created successfully\",\n  \"data\": {\n    \"id\": 1,\n    \"name\": \"John Doe\",\n    \"email\": \"johndoe@example.com\",\n    \"phone\": \"08123456789\",\n    \"gender\": \"male\",\n    \"isStudent\": true,\n    \"age\": 25,\n    \"field\": \"Computer Science\",\n    \"hobbies\": \"Reading, Gaming\",\n    \"hasAnsweredQuestionnaire\": false,\n    \"chatQuota\": 8,\n    \"createdAt\": \"2026-01-06T10:00:00.000Z\",\n    \"updatedAt\": \"2026-01-06T10:00:00.000Z\"\n  }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "if (jsonData.data && jsonData.data.accessToken) {",
+                  "    pm.collectionVariables.set('access_token', jsonData.data.accessToken);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"johndoe@example.com\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/user/login",
+              "host": ["{{base_url}}"],
+              "path": ["api", "user", "login"]
+            },
+            "description": "Login with email and password. Returns access token and refresh token."
+          },
+          "response": [
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"email\": \"johndoe@example.com\",\n  \"password\": \"password123\"\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/user/login",
+                  "host": ["{{base_url}}"],
+                  "path": ["api", "user", "login"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"success\",\n  \"message\": \"data fetched successfully\",\n  \"data\": {\n    \"user\": {\n      \"id\": 1,\n      \"name\": \"John Doe\",\n      \"email\": \"johndoe@example.com\",\n      \"phone\": \"08123456789\",\n      \"gender\": \"male\",\n      \"isStudent\": true,\n      \"age\": 25,\n      \"field\": \"Computer Science\",\n      \"hobbies\": \"Reading, Gaming\",\n      \"hasAnsweredQuestionnaire\": true,\n      \"chatQuota\": 8\n    },\n    \"accessToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...\",\n    \"refreshToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...\"\n  }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/user/logout",
+              "host": ["{{base_url}}"],
+              "path": ["api", "user", "logout"]
+            },
+            "description": "Logout the current user"
+          },
+          "response": [
+            {
+              "name": "Success",
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"success\",\n  \"message\": \"Logged out successfully\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Refresh Token",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "if (jsonData.data && jsonData.data.accessToken) {",
+                  "    pm.collectionVariables.set('access_token', jsonData.data.accessToken);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/user/refresh-token",
+              "host": ["{{base_url}}"],
+              "path": ["api", "user", "refresh-token"]
+            },
+            "description": "Refresh the access token using the refresh token stored in cookies"
+          },
+          "response": [
+            {
+              "name": "Success",
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"success\",\n  \"message\": \"data fetched successfully\",\n  \"data\": {\n    \"accessToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...\"\n  }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Get All Users",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/user",
+              "host": ["{{base_url}}"],
+              "path": ["api", "user"]
+            },
+            "description": "Get list of all users (requires authentication)"
+          },
+          "response": [
+            {
+              "name": "Success",
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"success\",\n  \"message\": \"data fetched successfully\",\n  \"data\": [\n    {\n      \"id\": 1,\n      \"name\": \"John Doe\",\n      \"email\": \"johndoe@example.com\",\n      \"phone\": \"08123456789\",\n      \"gender\": \"male\",\n      \"isStudent\": true,\n      \"age\": 25,\n      \"field\": \"Computer Science\",\n      \"hobbies\": \"Reading, Gaming\"\n    },\n    {\n      \"id\": 2,\n      \"name\": \"Jane Smith\",\n      \"email\": \"janesmith@example.com\",\n      \"phone\": \"08987654321\",\n      \"gender\": \"female\",\n      \"isStudent\": false,\n      \"age\": 28,\n      \"field\": \"Marketing\",\n      \"hobbies\": \"Traveling\"\n    }\n  ]\n}"
+            }
+          ]
+        },
+        {
+          "name": "Get Profile",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/user/profile",
+              "host": ["{{base_url}}"],
+              "path": ["api", "user", "profile"]
+            },
+            "description": "Get current user's profile"
+          },
+          "response": [
+            {
+              "name": "Success",
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"success\",\n  \"message\": \"data fetched successfully\",\n  \"data\": {\n    \"id\": 1,\n    \"name\": \"John Doe\",\n    \"email\": \"johndoe@example.com\",\n    \"phone\": \"08123456789\",\n    \"gender\": \"male\",\n    \"isStudent\": true,\n    \"age\": 25,\n    \"field\": \"Computer Science\",\n    \"hobbies\": \"Reading, Gaming\",\n    \"hasAnsweredQuestionnaire\": true,\n    \"chatQuota\": 8,\n    \"createdAt\": \"2026-01-06T10:00:00.000Z\",\n    \"updatedAt\": \"2026-01-06T10:00:00.000Z\"\n  }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Get Feedback",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/user/feedback",
+              "host": ["{{base_url}}"],
+              "path": ["api", "user", "feedback"]
+            },
+            "description": "Get user feedback"
+          },
+          "response": [
+            {
+              "name": "Success",
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"success\",\n  \"message\": \"data fetched successfully\",\n  \"data\": {\n    \"feedback\": \"This is my feedback about the app\"\n  }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Update Feedback",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"feedback\": \"This is my feedback about the app\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/user/feedback",
+              "host": ["{{base_url}}"],
+              "path": ["api", "user", "feedback"]
+            },
+            "description": "Submit or update user feedback"
+          },
+          "response": [
+            {
+              "name": "Success",
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"success\",\n  \"message\": \"data fetched successfully\",\n  \"data\": {\n    \"id\": 1,\n    \"feedback\": \"This is my feedback about the app\"\n  }\n}"
+            }
+          ]
+        }
+      ],
+      "description": "User authentication and profile management endpoints"
+    },
+    {
+      "name": "Note",
+      "item": [
+        {
+          "name": "Get All Notes",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/note",
+              "host": ["{{base_url}}"],
+              "path": ["api", "note"]
+            },
+            "description": "Get all notes"
+          },
+          "response": [
+            {
+              "name": "Success",
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": 1,\n    \"date\": \"2026-01-06T00:00:00.000Z\",\n    \"userId\": 1,\n    \"items\": [\n      {\n        \"id\": 1,\n        \"content\": \"This is my first note\",\n        \"createdAt\": \"2026-01-06T10:00:00.000Z\"\n      },\n      {\n        \"id\": 2,\n        \"content\": \"This is my second note\",\n        \"createdAt\": \"2026-01-06T11:00:00.000Z\"\n      }\n    ]\n  }\n]"
+            }
+          ]
+        },
+        {
+          "name": "Get My Notes",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/note/me",
+              "host": ["{{base_url}}"],
+              "path": ["api", "note", "me"]
+            },
+            "description": "Get notes for the current logged-in user"
+          },
+          "response": [
+            {
+              "name": "Success",
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": 1,\n    \"date\": \"2026-01-06T00:00:00.000Z\",\n    \"userId\": 1,\n    \"items\": [\n      {\n        \"id\": 1,\n        \"content\": \"Today I completed my morning exercise routine\",\n        \"createdAt\": \"2026-01-06T07:30:00.000Z\"\n      }\n    ]\n  }\n]"
+            }
+          ]
+        },
+        {
+          "name": "Create Note",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"content\": \"This is my note content\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/note",
+              "host": ["{{base_url}}"],
+              "path": ["api", "note"]
+            },
+            "description": "Create a new note"
+          },
+          "response": [
+            {
+              "name": "Success",
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": 1,\n  \"content\": \"This is my note content\",\n  \"noteId\": 1,\n  \"createdAt\": \"2026-01-06T10:00:00.000Z\",\n  \"updatedAt\": \"2026-01-06T10:00:00.000Z\"\n}"
+            }
+          ]
+        }
+      ],
+      "description": "Note management endpoints"
+    },
+    {
+      "name": "Schedule",
+      "item": [
+        {
+          "name": "Get All Schedules",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/schedule",
+              "host": ["{{base_url}}"],
+              "path": ["api", "schedule"]
+            },
+            "description": "Get all schedules"
+          },
+          "response": [
+            {
+              "name": "Success",
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": 1,\n    \"date\": \"2026-01-06T00:00:00.000Z\",\n    \"userId\": 1,\n    \"items\": [\n      {\n        \"id\": 1,\n        \"desc\": \"Morning exercise\",\n        \"time\": \"2026-01-06T07:00:00.000Z\",\n        \"looping\": \"EVERYDAY\",\n        \"category\": \"PERSONAL_TIME\"\n      },\n      {\n        \"id\": 2,\n        \"desc\": \"Team meeting\",\n        \"time\": \"2026-01-06T09:00:00.000Z\",\n        \"looping\": \"WEEKDAYS\",\n        \"category\": \"WORK_ACTIVITY\"\n      }\n    ]\n  }\n]"
+            }
+          ]
+        },
+        {
+          "name": "Get Today's Schedules",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/schedule/today",
+              "host": ["{{base_url}}"],
+              "path": ["api", "schedule", "today"]
+            },
+            "description": "Get schedules for today"
+          },
+          "response": [
+            {
+              "name": "Success",
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": 1,\n    \"desc\": \"Morning exercise\",\n    \"time\": \"2026-01-06T07:00:00.000Z\",\n    \"looping\": \"EVERYDAY\",\n    \"category\": \"PERSONAL_TIME\",\n    \"scheduleId\": 1\n  },\n  {\n    \"id\": 2,\n    \"desc\": \"Online course - Self Development\",\n    \"time\": \"2026-01-06T19:00:00.000Z\",\n    \"looping\": null,\n    \"category\": \"SELF_DEVELOPMENT\",\n    \"scheduleId\": 1\n  }\n]"
+            }
+          ]
+        },
+        {
+          "name": "Get My Schedules",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/schedule/me",
+              "host": ["{{base_url}}"],
+              "path": ["api", "schedule", "me"]
+            },
+            "description": "Get schedules for the current logged-in user"
+          },
+          "response": [
+            {
+              "name": "Success",
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": 1,\n    \"date\": \"2026-01-06T00:00:00.000Z\",\n    \"userId\": 1,\n    \"createdAt\": \"2026-01-06T10:00:00.000Z\",\n    \"items\": [\n      {\n        \"id\": 1,\n        \"desc\": \"Morning exercise\",\n        \"time\": \"2026-01-06T07:00:00.000Z\",\n        \"looping\": \"EVERYDAY\",\n        \"category\": \"PERSONAL_TIME\"\n      }\n    ]\n  }\n]"
+            }
+          ]
+        },
+        {
+          "name": "Create Schedule",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"desc\": \"Morning exercise\",\n  \"time\": \"2026-01-05T07:00:00.000Z\",\n  \"looping\": \"EVERYDAY\",\n  \"category\": \"PERSONAL_TIME\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/schedule",
+              "host": ["{{base_url}}"],
+              "path": ["api", "schedule"]
+            },
+            "description": "Create a new schedule item.\n\nLooping options: EVERYDAY, WEEKDAYS, WEEKENDS (optional, can be null)\n\nCategory options: WORK_ACTIVITY, PERSONAL_TIME, SELF_DEVELOPMENT"
+          },
+          "response": [
+            {
+              "name": "Success",
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": 1,\n  \"desc\": \"Morning exercise\",\n  \"time\": \"2026-01-05T07:00:00.000Z\",\n  \"looping\": \"EVERYDAY\",\n  \"category\": \"PERSONAL_TIME\",\n  \"scheduleId\": 1,\n  \"createdAt\": \"2026-01-06T10:00:00.000Z\",\n  \"updatedAt\": \"2026-01-06T10:00:00.000Z\"\n}"
+            }
+          ]
+        }
+      ],
+      "description": "Schedule management endpoints"
+    },
+    {
+      "name": "Questionnaire",
+      "item": [
+        {
+          "name": "Get All Questionnaires",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/questionnaire",
+              "host": ["{{base_url}}"],
+              "path": ["api", "questionnaire"]
+            },
+            "description": "Get all questionnaires"
+          },
+          "response": [
+            {
+              "name": "Success",
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": 1,\n    \"userId\": 1,\n    \"answer\": [\n      \"SANGAT_SETUJU\",\n      \"CUKUP_SETUJU\",\n      \"NETRAL\",\n      \"KURANG_SETUJU\",\n      \"SANGAT_TIDAK_SETUJU\"\n    ],\n    \"createdAt\": \"2026-01-06T10:00:00.000Z\",\n    \"updatedAt\": \"2026-01-06T10:00:00.000Z\"\n  }\n]"
+            }
+          ]
+        },
+        {
+          "name": "Get My Questionnaires",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/questionnaire/me",
+              "host": ["{{base_url}}"],
+              "path": ["api", "questionnaire", "me"]
+            },
+            "description": "Get questionnaire answers for the current logged-in user"
+          },
+          "response": [
+            {
+              "name": "Success",
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": 1,\n  \"userId\": 1,\n  \"answer\": [\n    \"SANGAT_SETUJU\",\n    \"CUKUP_SETUJU\",\n    \"NETRAL\",\n    \"KURANG_SETUJU\",\n    \"SANGAT_TIDAK_SETUJU\",\n    \"CUKUP_SETUJU\",\n    \"SANGAT_SETUJU\",\n    \"NETRAL\",\n    \"CUKUP_SETUJU\",\n    \"SANGAT_SETUJU\",\n    \"NETRAL\",\n    \"CUKUP_SETUJU\",\n    \"SANGAT_SETUJU\",\n    \"KURANG_SETUJU\",\n    \"NETRAL\",\n    \"CUKUP_SETUJU\",\n    \"SANGAT_SETUJU\",\n    \"NETRAL\",\n    \"CUKUP_SETUJU\",\n    \"SANGAT_SETUJU\",\n    \"KURANG_SETUJU\",\n    \"NETRAL\",\n    \"CUKUP_SETUJU\"\n  ],\n  \"createdAt\": \"2026-01-06T10:00:00.000Z\",\n  \"updatedAt\": \"2026-01-06T10:00:00.000Z\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Submit Questionnaire Answers",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"answers\": [\n    \"SANGAT_SETUJU\",\n    \"CUKUP_SETUJU\",\n    \"NETRAL\",\n    \"KURANG_SETUJU\",\n    \"SANGAT_TIDAK_SETUJU\",\n    \"CUKUP_SETUJU\",\n    \"SANGAT_SETUJU\",\n    \"NETRAL\",\n    \"CUKUP_SETUJU\",\n    \"SANGAT_SETUJU\",\n    \"NETRAL\",\n    \"CUKUP_SETUJU\",\n    \"SANGAT_SETUJU\",\n    \"KURANG_SETUJU\",\n    \"NETRAL\",\n    \"CUKUP_SETUJU\",\n    \"SANGAT_SETUJU\",\n    \"NETRAL\",\n    \"CUKUP_SETUJU\",\n    \"SANGAT_SETUJU\",\n    \"KURANG_SETUJU\",\n    \"NETRAL\",\n    \"CUKUP_SETUJU\"\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/questionnaire",
+              "host": ["{{base_url}}"],
+              "path": ["api", "questionnaire"]
+            },
+            "description": "Submit questionnaire answers and get WLB analysis.\n\nAnswer options:\n- SANGAT_TIDAK_SETUJU\n- KURANG_SETUJU\n- NETRAL\n- CUKUP_SETUJU\n- SANGAT_SETUJU\n\nExpects an array of 23 answers."
+          },
+          "response": [
+            {
+              "name": "Success",
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": 1,\n  \"userId\": 1,\n  \"date\": \"2026-01-06T10:00:00.000Z\",\n  \"score\": 72,\n  \"summary\": \"Secara keseluruhan, work-life balance Anda cukup baik. Ada beberapa area yang bisa ditingkatkan, terutama di aspek personal dan mental.\",\n  \"dimensionalScores\": [\n    {\n      \"id\": 1,\n      \"dimension\": \"Akademik/Pekerjaan & Profesionalisme\",\n      \"score\": 75,\n      \"analysis\": \"Anda menunjukkan dedikasi yang baik dalam pekerjaan/studi.\"\n    },\n    {\n      \"id\": 2,\n      \"dimension\": \"Pengembangan Diri\",\n      \"score\": 70,\n      \"analysis\": \"Ada ruang untuk lebih fokus pada pengembangan diri.\"\n    },\n    {\n      \"id\": 3,\n      \"dimension\": \"Sosial & Relasi\",\n      \"score\": 68,\n      \"analysis\": \"Hubungan sosial Anda cukup sehat namun bisa ditingkatkan.\"\n    },\n    {\n      \"id\": 4,\n      \"dimension\": \"Personal & Mental\",\n      \"score\": 65,\n      \"analysis\": \"Perlu lebih memperhatikan kesehatan mental dan waktu pribadi.\"\n    },\n    {\n      \"id\": 5,\n      \"dimension\": \"Karier & Masa Depan\",\n      \"score\": 78,\n      \"analysis\": \"Perencanaan karier Anda sudah baik.\"\n    }\n  ],\n  \"recommendations\": [\n    {\n      \"id\": 1,\n      \"priority\": \"High\",\n      \"title\": \"Luangkan waktu untuk diri sendiri\",\n      \"description\": \"Alokasikan minimal 30 menit setiap hari untuk aktivitas yang Anda nikmati tanpa gangguan.\",\n      \"checked\": false\n    },\n    {\n      \"id\": 2,\n      \"priority\": \"Medium\",\n      \"title\": \"Tingkatkan interaksi sosial\",\n      \"description\": \"Jadwalkan waktu mingguan untuk bertemu teman atau keluarga.\",\n      \"checked\": false\n    },\n    {\n      \"id\": 3,\n      \"priority\": \"Low\",\n      \"title\": \"Mulai jurnal harian\",\n      \"description\": \"Catat perasaan dan pencapaian Anda setiap hari untuk refleksi diri.\",\n      \"checked\": false\n    }\n  ],\n  \"createdAt\": \"2026-01-06T10:00:00.000Z\",\n  \"updatedAt\": \"2026-01-06T10:00:00.000Z\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Delete Questionnaire Answers",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/questionnaire",
+              "host": ["{{base_url}}"],
+              "path": ["api", "questionnaire"]
+            },
+            "description": "Delete questionnaire answers for the current user"
+          },
+          "response": [
+            {
+              "name": "Success",
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": 1,\n  \"userId\": 1,\n  \"answer\": [],\n  \"createdAt\": \"2026-01-06T10:00:00.000Z\",\n  \"updatedAt\": \"2026-01-06T10:00:00.000Z\"\n}"
+            }
+          ]
+        }
+      ],
+      "description": "Questionnaire management endpoints for work-life balance assessment"
+    },
+    {
+      "name": "Work-Life Balance (WLB)",
+      "item": [
+        {
+          "name": "Get WLB Today",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/wlb/today",
+              "host": ["{{base_url}}"],
+              "path": ["api", "wlb", "today"]
+            },
+            "description": "Get today's work-life balance progress for the current user"
+          },
+          "response": [
+            {
+              "name": "Success",
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": 1,\n  \"userId\": 1,\n  \"date\": \"2026-01-06T00:00:00.000Z\",\n  \"score\": 72,\n  \"summary\": \"Secara keseluruhan, work-life balance Anda cukup baik hari ini.\",\n  \"dimensionalScores\": [\n    {\n      \"id\": 1,\n      \"dimension\": \"Akademik/Pekerjaan & Profesionalisme\",\n      \"score\": 75,\n      \"analysis\": \"Produktivitas kerja Anda baik.\"\n    },\n    {\n      \"id\": 2,\n      \"dimension\": \"Pengembangan Diri\",\n      \"score\": 70,\n      \"analysis\": \"Terus kembangkan diri Anda.\"\n    }\n  ],\n  \"recommendations\": [\n    {\n      \"id\": 1,\n      \"priority\": \"High\",\n      \"title\": \"Istirahat cukup\",\n      \"description\": \"Pastikan tidur 7-8 jam setiap malam.\",\n      \"checked\": true\n    },\n    {\n      \"id\": 2,\n      \"priority\": \"Medium\",\n      \"title\": \"Olahraga rutin\",\n      \"description\": \"Lakukan olahraga minimal 30 menit.\",\n      \"checked\": false\n    }\n  ]\n}"
+            }
+          ]
+        },
+        {
+          "name": "Get Latest WLB",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/wlb/latest",
+              "host": ["{{base_url}}"],
+              "path": ["api", "wlb", "latest"]
+            },
+            "description": "Get the latest work-life balance analysis for the current user"
+          },
+          "response": [
+            {
+              "name": "Success",
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": 5,\n  \"userId\": 1,\n  \"date\": \"2026-01-06T10:00:00.000Z\",\n  \"score\": 78,\n  \"summary\": \"Work-life balance Anda telah meningkat! Terus pertahankan kebiasaan positif Anda.\",\n  \"dimensionalScores\": [\n    {\n      \"id\": 21,\n      \"dimension\": \"Akademik/Pekerjaan & Profesionalisme\",\n      \"score\": 80,\n      \"analysis\": \"Performa kerja sangat baik.\"\n    },\n    {\n      \"id\": 22,\n      \"dimension\": \"Pengembangan Diri\",\n      \"score\": 75,\n      \"analysis\": \"Pengembangan diri konsisten.\"\n    },\n    {\n      \"id\": 23,\n      \"dimension\": \"Sosial & Relasi\",\n      \"score\": 72,\n      \"analysis\": \"Hubungan sosial sehat.\"\n    },\n    {\n      \"id\": 24,\n      \"dimension\": \"Personal & Mental\",\n      \"score\": 78,\n      \"analysis\": \"Kesehatan mental membaik.\"\n    },\n    {\n      \"id\": 25,\n      \"dimension\": \"Karier & Masa Depan\",\n      \"score\": 85,\n      \"analysis\": \"Visi karier jelas.\"\n    }\n  ],\n  \"recommendations\": [\n    {\n      \"id\": 11,\n      \"priority\": \"High\",\n      \"title\": \"Pertahankan rutinitas\",\n      \"description\": \"Lanjutkan kebiasaan baik yang sudah terbentuk.\",\n      \"checked\": false\n    }\n  ],\n  \"createdAt\": \"2026-01-06T10:00:00.000Z\",\n  \"updatedAt\": \"2026-01-06T10:00:00.000Z\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Get WLB History",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/wlb/history",
+              "host": ["{{base_url}}"],
+              "path": ["api", "wlb", "history"]
+            },
+            "description": "Get work-life balance history for the current user"
+          },
+          "response": [
+            {
+              "name": "Success",
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": 1,\n    \"date\": \"2026-01-01T00:00:00.000Z\",\n    \"score\": 65,\n    \"summary\": \"Awal yang baik untuk perjalanan work-life balance Anda.\"\n  },\n  {\n    \"id\": 2,\n    \"date\": \"2026-01-02T00:00:00.000Z\",\n    \"score\": 68,\n    \"summary\": \"Ada peningkatan kecil dari kemarin.\"\n  },\n  {\n    \"id\": 3,\n    \"date\": \"2026-01-03T00:00:00.000Z\",\n    \"score\": 70,\n    \"summary\": \"Terus meningkat, kerja bagus!\"\n  },\n  {\n    \"id\": 4,\n    \"date\": \"2026-01-05T00:00:00.000Z\",\n    \"score\": 75,\n    \"summary\": \"Peningkatan signifikan dalam beberapa hari.\"\n  },\n  {\n    \"id\": 5,\n    \"date\": \"2026-01-06T00:00:00.000Z\",\n    \"score\": 78,\n    \"summary\": \"Skor terbaik Anda sejauh ini!\"\n  }\n]"
+            }
+          ]
+        },
+        {
+          "name": "Update Recommendation Status",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/wlb/recommendation/:recommendationId",
+              "host": ["{{base_url}}"],
+              "path": ["api", "wlb", "recommendation", ":recommendationId"],
+              "variable": [
+                {
+                  "key": "recommendationId",
+                  "value": "1",
+                  "description": "The ID of the recommendation to update"
+                }
+              ]
+            },
+            "description": "Update the status of a specific recommendation (mark as completed/incomplete)"
+          },
+          "response": [
+            {
+              "name": "Success",
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": 1,\n  \"priority\": \"High\",\n  \"title\": \"Luangkan waktu untuk diri sendiri\",\n  \"description\": \"Alokasikan minimal 30 menit setiap hari untuk aktivitas yang Anda nikmati.\",\n  \"checked\": true,\n  \"userProgressId\": 1\n}"
+            }
+          ]
+        },
+        {
+          "name": "Delete User Progress",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/wlb/progress",
+              "host": ["{{base_url}}"],
+              "path": ["api", "wlb", "progress"]
+            },
+            "description": "Delete all WLB progress data for the current user"
+          },
+          "response": [
+            {
+              "name": "Success",
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"count\": 5,\n  \"message\": \"Successfully deleted 5 progress records\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Analyze WLB Answers",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"answers\": [\n    \"SANGAT_SETUJU\",\n    \"CUKUP_SETUJU\",\n    \"NETRAL\",\n    \"KURANG_SETUJU\",\n    \"SANGAT_TIDAK_SETUJU\",\n    \"CUKUP_SETUJU\",\n    \"SANGAT_SETUJU\",\n    \"NETRAL\",\n    \"CUKUP_SETUJU\",\n    \"SANGAT_SETUJU\",\n    \"NETRAL\",\n    \"CUKUP_SETUJU\",\n    \"SANGAT_SETUJU\",\n    \"KURANG_SETUJU\",\n    \"NETRAL\",\n    \"CUKUP_SETUJU\",\n    \"SANGAT_SETUJU\",\n    \"NETRAL\",\n    \"CUKUP_SETUJU\",\n    \"SANGAT_SETUJU\",\n    \"KURANG_SETUJU\",\n    \"NETRAL\",\n    \"CUKUP_SETUJU\"\n  ],\n  \"isStudent\": true\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/wlb/analyze",
+              "host": ["{{base_url}}"],
+              "path": ["api", "wlb", "analyze"]
+            },
+            "description": "Analyze work-life balance questionnaire answers using AI.\n\nAnswer options:\n- SANGAT_TIDAK_SETUJU\n- KURANG_SETUJU\n- NETRAL\n- CUKUP_SETUJU\n- SANGAT_SETUJU\n\nExpects an array of 23 answers and isStudent boolean."
+          },
+          "response": [
+            {
+              "name": "Success",
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": 1,\n  \"userId\": 1,\n  \"date\": \"2026-01-06T10:00:00.000Z\",\n  \"score\": 72,\n  \"summary\": \"Analisis menunjukkan work-life balance Anda berada di tingkat cukup baik. Ada beberapa area yang perlu ditingkatkan terutama di aspek personal dan mental.\",\n  \"dimensionalScores\": [\n    {\n      \"id\": 1,\n      \"dimension\": \"Akademik/Pekerjaan & Profesionalisme\",\n      \"score\": 75,\n      \"analysis\": \"Anda menunjukkan dedikasi yang baik dalam studi/pekerjaan.\"\n    },\n    {\n      \"id\": 2,\n      \"dimension\": \"Pengembangan Diri\",\n      \"score\": 70,\n      \"analysis\": \"Ada ruang untuk fokus lebih pada pengembangan diri.\"\n    },\n    {\n      \"id\": 3,\n      \"dimension\": \"Sosial & Relasi\",\n      \"score\": 68,\n      \"analysis\": \"Hubungan sosial cukup sehat namun bisa ditingkatkan.\"\n    },\n    {\n      \"id\": 4,\n      \"dimension\": \"Personal & Mental\",\n      \"score\": 65,\n      \"analysis\": \"Perlu lebih memperhatikan kesehatan mental.\"\n    },\n    {\n      \"id\": 5,\n      \"dimension\": \"Karier & Masa Depan\",\n      \"score\": 78,\n      \"analysis\": \"Perencanaan karier sudah baik.\"\n    }\n  ],\n  \"recommendations\": [\n    {\n      \"id\": 1,\n      \"priority\": \"High\",\n      \"title\": \"Luangkan waktu untuk diri sendiri\",\n      \"description\": \"Alokasikan 30 menit setiap hari untuk aktivitas yang Anda nikmati.\",\n      \"checked\": false\n    },\n    {\n      \"id\": 2,\n      \"priority\": \"Medium\",\n      \"title\": \"Tingkatkan interaksi sosial\",\n      \"description\": \"Jadwalkan waktu mingguan untuk bertemu teman atau keluarga.\",\n      \"checked\": false\n    },\n    {\n      \"id\": 3,\n      \"priority\": \"Low\",\n      \"title\": \"Mulai jurnal harian\",\n      \"description\": \"Catat perasaan dan pencapaian setiap hari untuk refleksi diri.\",\n      \"checked\": false\n    }\n  ],\n  \"createdAt\": \"2026-01-06T10:00:00.000Z\",\n  \"updatedAt\": \"2026-01-06T10:00:00.000Z\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Recalculate WLB Scores",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"progress\": {\n    \"id\": 1,\n    \"score\": 75,\n    \"dimensionalScores\": [],\n    \"recommendations\": []\n  }\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/wlb/recalculate",
+              "host": ["{{base_url}}"],
+              "path": ["api", "wlb", "recalculate"]
+            },
+            "description": "Recalculate WLB scores based on completed recommendations"
+          },
+          "response": [
+            {
+              "name": "Success",
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": 2,\n  \"userId\": 1,\n  \"date\": \"2026-01-06T11:00:00.000Z\",\n  \"score\": 80,\n  \"summary\": \"Selamat! Skor Anda meningkat 8 poin setelah menyelesaikan rekomendasi. Terus pertahankan momentum positif ini!\",\n  \"dimensionalScores\": [\n    {\n      \"id\": 6,\n      \"dimension\": \"Akademik/Pekerjaan & Profesionalisme\",\n      \"score\": 82,\n      \"analysis\": \"Produktivitas meningkat setelah menerapkan rekomendasi.\"\n    },\n    {\n      \"id\": 7,\n      \"dimension\": \"Pengembangan Diri\",\n      \"score\": 78,\n      \"analysis\": \"Pengembangan diri semakin konsisten.\"\n    },\n    {\n      \"id\": 8,\n      \"dimension\": \"Sosial & Relasi\",\n      \"score\": 75,\n      \"analysis\": \"Hubungan sosial membaik.\"\n    },\n    {\n      \"id\": 9,\n      \"dimension\": \"Personal & Mental\",\n      \"score\": 78,\n      \"analysis\": \"Kesehatan mental meningkat signifikan.\"\n    },\n    {\n      \"id\": 10,\n      \"dimension\": \"Karier & Masa Depan\",\n      \"score\": 85,\n      \"analysis\": \"Arah karier semakin jelas.\"\n    }\n  ],\n  \"recommendations\": [\n    {\n      \"id\": 4,\n      \"priority\": \"High\",\n      \"title\": \"Lanjutkan kebiasaan baik\",\n      \"description\": \"Pertahankan rutinitas positif yang sudah terbentuk.\",\n      \"checked\": false\n    },\n    {\n      \"id\": 5,\n      \"priority\": \"Medium\",\n      \"title\": \"Eksplorasi hobi baru\",\n      \"description\": \"Coba aktivitas baru untuk memperkaya waktu luang.\",\n      \"checked\": false\n    }\n  ],\n  \"createdAt\": \"2026-01-06T11:00:00.000Z\",\n  \"updatedAt\": \"2026-01-06T11:00:00.000Z\"\n}"
+            }
+          ]
+        }
+      ],
+      "description": "Work-Life Balance analysis and progress tracking endpoints"
+    },
+    {
+      "name": "AI Chat",
+      "item": [
+        {
+          "name": "Get Chat History",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/chat",
+              "host": ["{{base_url}}"],
+              "path": ["api", "chat"]
+            },
+            "description": "Get chat history for the current user"
+          },
+          "response": [
+            {
+              "name": "Success",
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": 1,\n    \"userId\": 1,\n    \"message\": \"How can I improve my work-life balance?\",\n    \"answer\": \"Halo! Untuk meningkatkan work-life balance, ada beberapa tips yang bisa kamu coba: 1) Tetapkan batasan waktu kerja yang jelas, 2) Prioritaskan waktu untuk aktivitas yang kamu nikmati, 3) Jangan lupa istirahat yang cukup. Mau mulai dari mana?\",\n    \"createdAt\": \"2026-01-06T09:00:00.000Z\",\n    \"updatedAt\": \"2026-01-06T09:00:00.000Z\"\n  },\n  {\n    \"id\": 2,\n    \"userId\": 1,\n    \"message\": \"Saya sering merasa stress dengan pekerjaan\",\n    \"answer\": \"Aku paham perasaanmu! Stress kerja itu wajar, tapi perlu dikelola dengan baik. Coba teknik ini: 1) Ambil jeda 5 menit setiap jam, 2) Praktikkan deep breathing saat merasa overwhelmed, 3) Buat to-do list harian agar lebih terorganisir. Ingat, kesehatan mentalmu itu prioritas! 💪\",\n    \"createdAt\": \"2026-01-06T09:30:00.000Z\",\n    \"updatedAt\": \"2026-01-06T09:30:00.000Z\"\n  }\n]"
+            }
+          ]
+        },
+        {
+          "name": "Get Chat Quota",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/chat/quota",
+              "host": ["{{base_url}}"],
+              "path": ["api", "chat", "quota"]
+            },
+            "description": "Get remaining chat quota for the current user"
+          },
+          "response": [
+            {
+              "name": "Success",
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"chatQuota\": 6\n}"
+            }
+          ]
+        },
+        {
+          "name": "Send Chat Message",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"message\": \"How can I improve my work-life balance?\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/chat",
+              "host": ["{{base_url}}"],
+              "path": ["api", "chat"]
+            },
+            "description": "Send a message to the AI chat assistant for work-life balance advice"
+          },
+          "response": [
+            {
+              "name": "Success",
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": 3,\n  \"userId\": 1,\n  \"message\": \"How can I improve my work-life balance?\",\n  \"answer\": \"Halo! Senang kamu bertanya tentang work-life balance! 🌟 Berikut beberapa tips yang bisa membantu:\n\n1. **Tetapkan Batasan** - Tentukan jam kerja yang jelas dan konsisten\n2. **Prioritaskan Self-Care** - Sisihkan waktu untuk aktivitas yang kamu nikmati\n3. **Digital Detox** - Kurangi screen time di luar jam kerja\n4. **Olahraga Rutin** - Minimal 30 menit aktivitas fisik setiap hari\n5. **Quality Time** - Luangkan waktu berkualitas dengan orang terdekat\n\nMau mulai dari langkah mana? Aku siap membantu! 💪\",\n  \"createdAt\": \"2026-01-06T10:00:00.000Z\",\n  \"updatedAt\": \"2026-01-06T10:00:00.000Z\"\n}"
+            }
+          ]
+        }
+      ],
+      "description": "AI-powered chat endpoints for work-life balance assistance"
+    }
+  ]
+}
