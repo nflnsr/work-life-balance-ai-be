@@ -163,7 +163,7 @@ export class WlbService {
 
     const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
     const response = await ai.models.generateContent({
-      model: "gemini-2.5-flash",
+      model: "gemini-2.5-pro",
       contents: prompt,
       config: {
         responseMimeType: "application/json",
@@ -178,7 +178,6 @@ export class WlbService {
       const priorityOrder = { High: 1, Medium: 2, Low: 3 };
       
       result.recommendations.sort((a, b) => priorityOrder[a.priority] - priorityOrder[b.priority]);
-      
       const savedResult = await this.wlbRepository.saveAnalyzeWlbAnswer({ ...result, userId });
       return savedResult;
     } catch (error) {
