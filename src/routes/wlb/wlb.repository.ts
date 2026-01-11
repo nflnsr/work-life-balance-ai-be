@@ -31,33 +31,47 @@ export class WlbRepository {
   async getLatestWlbUser(userId: number) {
     try {
       // technical debt, fix later
-      const checkTotalProgress = await prisma.userProgress.count({
+      const totalProgress = await prisma.userProgress.count({
         where: { userId },
       });
 
-      console.log(checkTotalProgress, "total");
+      console.log(totalProgress, "total");
 
-      let data: (Awaited<ReturnType<typeof prisma.userProgress.findFirst<{
-        include: {
-          dimensionalScores: true;
-          recommendations: true;
-        };
-      }>>>) | undefined;
-
-      if (checkTotalProgress < 8) {
-        data = await prisma.userProgress.findFirst({
+      if (totalProgress < 8) {
+        const data = await prisma.userProgress.findFirst({
           where: { userId },
-          orderBy: { date: "desc" },
+          orderBy: { createdAt: "desc" },
           include: {
             dimensionalScores: true,
             recommendations: true,
           },
         });
+
+        if (!data) return null;
+
+        const priorityOrder = {
+          High: 1,
+          Medium: 2,
+          Low: 3,
+        } as const;
+
+        data.recommendations = data.recommendations.sort((a, b) => {
+          if (a.checked !== b.checked) {
+            return a.checked ? 1 : -1;
+          }
+
+          const keyA = a.priority as keyof typeof priorityOrder;
+          const keyB = b.priority as keyof typeof priorityOrder;
+
+          return priorityOrder[keyA] - priorityOrder[keyB];
+        });
+
+        return data;
       } else {
-        data = await prisma.userProgress
+        const data = await prisma.userProgress
           .findMany({
             where: { userId },
-            orderBy: { date: "asc" },
+            orderBy: { createdAt: "asc" },
             take: 1,
             skip: 6,
             include: {
@@ -66,28 +80,28 @@ export class WlbRepository {
             },
           })
           .then((results) => results[0]);
+
+        if (!data) return null;
+
+        const priorityOrder = {
+          High: 1,
+          Medium: 2,
+          Low: 3,
+        } as const;
+
+        data.recommendations = data.recommendations.sort((a, b) => {
+          if (a.checked !== b.checked) {
+            return a.checked ? 1 : -1;
+          }
+
+          const keyA = a.priority as keyof typeof priorityOrder;
+          const keyB = b.priority as keyof typeof priorityOrder;
+
+          return priorityOrder[keyA] - priorityOrder[keyB];
+        });
+
+        return data;
       }
-
-      if (!data) return null;
-
-      const priorityOrder = {
-        High: 1,
-        Medium: 2,
-        Low: 3,
-      } as const;
-
-      data.recommendations = data.recommendations.sort((a, b) => {
-        if (a.checked !== b.checked) {
-          return a.checked ? 1 : -1;
-        }
-
-        const keyA = a.priority as keyof typeof priorityOrder;
-        const keyB = b.priority as keyof typeof priorityOrder;
-
-        return priorityOrder[keyA] - priorityOrder[keyB];
-      });
-
-      return data;
     } catch (error) {
       console.error("Error fetching WLB user progress:", error);
       throw error;
@@ -116,7 +130,7 @@ export class WlbRepository {
     try {
       const result = await prisma.userProgress.findMany({
         where: { userId },
-        orderBy: { date: "asc" },
+        orderBy: { createdAt: "asc" },
         include: {
           dimensionalScores: true,
           recommendations: true,
