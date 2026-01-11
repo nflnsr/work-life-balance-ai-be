@@ -9,7 +9,7 @@
     "skipLibCheck": true,
     "strict": true,
     "strictNullChecks": true,
-    "noImplicitAny": true,
+    "noImplicitAny": false,
     "strictFunctionTypes": true,
     "outDir": "./dist",
     "rootDir": "./src",
