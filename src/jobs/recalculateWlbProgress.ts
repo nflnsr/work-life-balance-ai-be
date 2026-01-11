@@ -12,6 +12,7 @@ cron.schedule(
     try {
       console.log("Running recalculate job");
       const usersToRecalculate = await wlbService.getUsersByRecalculateProgress(true);
+      const userToNotRecalculate = await wlbService.getUsersByRecalculateProgress(false);
       for (const user of usersToRecalculate) {
         console.log(`Recalculating WLB for user ${user.id} - ${user.email}`);
         const latestProgress = (await wlbService.getLatestWlbUser(user.id)) as UserProgress;
@@ -21,7 +22,6 @@ cron.schedule(
           await wlbService.updateRecalculateProgressFlag(user.id, false);
         }
       }
-      const userToNotRecalculate = await wlbService.getUsersByRecalculateProgress(false);
       for (const user of userToNotRecalculate) {
         await wlbService.insertLatestWlbProgress(user.id);
         console.log(`Inserted latest WLB progress for user ${user.id} - ${user.email}`);
