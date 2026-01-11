@@ -30,14 +30,42 @@ export class WlbRepository {
 
   async getLatestWlbUser(userId: number) {
     try {
-      const data = await prisma.userProgress.findFirst({
+      const checkTotalProgress = await prisma.userProgress.count({
         where: { userId },
-        orderBy: { date: "desc" },
-        include: {
-          dimensionalScores: true,
-          recommendations: true,
-        },
       });
+
+      console.log(checkTotalProgress, "total");
+
+      let data: (Awaited<ReturnType<typeof prisma.userProgress.findFirst<{
+        include: {
+          dimensionalScores: true;
+          recommendations: true;
+        };
+      }>>>) | undefined;
+
+      if (checkTotalProgress < 8) {
+        data = await prisma.userProgress.findFirst({
+          where: { userId },
+          orderBy: { date: "desc" },
+          include: {
+            dimensionalScores: true,
+            recommendations: true,
+          },
+        });
+      } else {
+        data = await prisma.userProgress
+          .findMany({
+            where: { userId },
+            orderBy: { date: "asc" },
+            take: 1,
+            skip: 6,
+            include: {
+              dimensionalScores: true,
+              recommendations: true,
+            },
+          })
+          .then((results) => results[0]);
+      }
 
       if (!data) return null;
 
